@@ -2,18 +2,29 @@ COMPOSER ?= composer
 ARTISAN ?= ./artisan
 
 
+help: Makefile
+	@echo
+	@echo " Choose a command run in Mailer:"
+	@echo
+	@sed -n 's/^##//p' $< | column -t -s ':' |  sed -e 's/^/ /'
+	@echo
+
+
 composer:
 	$(COMPOSER) install
 
 
+## fix: Fix code style issues
 fix:
 	./vendor/bin/php-cs-fixer fix
 
 
+## fix-diff: Get code style issues
 fix-diff:
 	./vendor/bin/php-cs-fixer fix --diff --dry-run -v
 
 
+## test: Run test cases
 test: composer
 	@echo "\n==> Run Test Cases:"
 	cp .env.example .env
@@ -21,6 +32,15 @@ test: composer
 	$(ARTISAN) test
 
 
+## serve: Run the application
+serve:
+	@echo "\n==> Start the application:"
+	cp .env.example .env
+	$(ARTISAN) key:generate
+	$(ARTISAN) serve
+
+
+## lint: Lint PHP files
 lint: lint-php phpcs php-cs lint-composer lint-eol
 	@echo All good.
 
@@ -49,13 +69,15 @@ php-cs:
 	vendor/bin/php-cs-fixer fix --diff --dry-run -v
 
 
+## outdated: Get list of outdated packages
 outdated:
 	@echo "\n==> Show Outdated Packages:"
 	$(COMPOSER) outdated
 
 
+## ci: Run all sanity checks
 ci: composer lint test outdated
 	@echo "All quality checks passed"
 
 
-.PHONY: test composer phpcs php-cs lint lint-php ci
+.PHONY: test composer phpcs php-cs lint lint-php ci artisan

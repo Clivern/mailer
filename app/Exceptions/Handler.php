@@ -1,5 +1,10 @@
 <?php
 
+/*
+ * This file is part of Mailer - Transactional Email Microservice.
+ * (c) Clivern <hello@clivern.com>
+ */
+
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -30,9 +35,9 @@ class Handler extends ExceptionHandler
      * Report or log an exception.
      *
      * @param  \Throwable  $exception
+     * @throws \Throwable
      * @return void
      *
-     * @throws \Throwable
      */
     public function report(Throwable $exception)
     {
@@ -44,9 +49,9 @@ class Handler extends ExceptionHandler
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Throwable  $exception
+     * @throws \Throwable
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @throws \Throwable
      */
     public function render($request, Throwable $exception)
     {

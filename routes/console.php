@@ -1,5 +1,10 @@
 <?php
 
+/*
+ * This file is part of Mailer - Transactional Email Microservice.
+ * (c) Clivern <hello@clivern.com>
+ */
+
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 

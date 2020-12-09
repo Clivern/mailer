@@ -1,5 +1,10 @@
 <?php
 
+/*
+ * This file is part of Mailer - Transactional Email Microservice.
+ * (c) Clivern <hello@clivern.com>
+ */
+
 namespace App\Http\Middleware;
 
 use App\Providers\RouteServiceProvider;
@@ -13,7 +18,7 @@ class RedirectIfAuthenticated
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @param  string|null  $guard
+     * @param  null|string  $guard
      * @return mixed
      */
     public function handle($request, Closure $next, $guard = null)

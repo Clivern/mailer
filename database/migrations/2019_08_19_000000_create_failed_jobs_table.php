@@ -1,5 +1,10 @@
 <?php
 
+/*
+ * This file is part of Mailer - Transactional Email Microservice.
+ * (c) Clivern <hello@clivern.com>
+ */
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

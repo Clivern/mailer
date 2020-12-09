@@ -1,5 +1,10 @@
 <?php
 
+/*
+ * This file is part of Mailer - Transactional Email Microservice.
+ * (c) Clivern <hello@clivern.com>
+ */
+
 namespace App\Http\Middleware;
 
 use Fideloper\Proxy\TrustProxies as Middleware;
@@ -10,7 +15,7 @@ class TrustProxies extends Middleware
     /**
      * The trusted proxies for this application.
      *
-     * @var array|string|null
+     * @var null|array|string
      */
     protected $proxies;
 

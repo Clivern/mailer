@@ -8,6 +8,7 @@
 namespace Tests\Feature\Middleware;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -32,15 +33,15 @@ class LoggingTest extends TestCase
         $headers = $response->headers->all();
 
         // Request log record
-        $this->assertTrue(mb_strpos($logContent, sprintf(
+        $this->assertTrue(Str::contains($logContent, sprintf(
             'Incoming GET Request to _health with   {"CorrelationId":"%s"}',
             $headers["x-correlation-id"][0]
-        )) !== false);
+        )));
 
         // Response log record
-        $this->assertTrue(mb_strpos($logContent, sprintf(
+        $this->assertTrue(Str::contains($logContent, sprintf(
             'Outgoing 200 Response to _health with {"status":"ok"}  {"CorrelationId":"%s"}',
             $headers["x-correlation-id"][0]
-        )) !== false);
+        )));
     }
 }

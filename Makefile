@@ -16,6 +16,8 @@ fix-diff:
 
 test: composer
 	@echo "\n==> Run Test Cases:"
+	cp .env.example .env
+	$(ARTISAN) key:generate
 	$(ARTISAN) test
 
 
@@ -25,7 +27,7 @@ lint: lint-php phpcs php-cs lint-composer lint-eol
 
 lint-eol:
 	@echo "\n==> Validating unix style line endings of files:files"
-	@! grep -lIUr --color '^M' src/ composer.json composer.lock || ( echo '[ERROR] Above files have CRLF line endings' && exit 1 )
+	@! grep -lIUr --color '^M' app/ composer.json composer.lock || ( echo '[ERROR] Above files have CRLF line endings' && exit 1 )
 	@echo All files have valid line endings
 
 

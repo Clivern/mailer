@@ -27,15 +27,18 @@ fix-diff:
 ## test: Run test cases
 test: composer
 	@echo "\n==> Run Test Cases:"
+	-rm database.sqlite
+	touch database.sqlite
 	cp .env.example .env
 	$(ARTISAN) key:generate
+	$(ARTISAN) migrate
 	$(ARTISAN) test
 
 
 ## serve: Run the application
 serve:
 	@echo "\n==> Start the application:"
-	cp .env.example .env
+	cp .env.prod .env
 	$(ARTISAN) key:generate
 	$(ARTISAN) serve
 

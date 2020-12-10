@@ -17,14 +17,17 @@ class SendEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $message;
+
     /**
      * Create a new job instance.
      *
+     * @param mixed $message
      * @return void
      */
-    public function __construct()
+    public function __construct($message)
     {
-        //
+        $this->message = $message;
     }
 
     /**
@@ -34,6 +37,6 @@ class SendEmail implements ShouldQueue
      */
     public function handle()
     {
-        //
+        //var_dump($this->job);
     }
 }

@@ -10,6 +10,9 @@ declare(strict_types=1);
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 /**
  * Class InvalidRequestException.
@@ -45,5 +48,31 @@ class InvalidRequestException extends BaseException
             PHP_EOL,
             parent::__toString()
         );
+    }
+
+    /**
+     * Report the exception.
+     *
+     * @return void
+     */
+    public function report()
+    {
+        // Report for development debugging
+        Log::debug(sprintf("Invalid request exception raised: %s", $this->getMessage()));
+    }
+
+    /**
+     * Render the exception into an HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function render($request)
+    {
+        return response()->json([
+            'errorCode' => $this->getErrorCode(),
+            'errorMessage' => $this->getMessage(),
+            'correlationId' => $request->headers->get('X-Correlation-ID'),
+        ], Response::HTTP_BAD_REQUEST);
     }
 }

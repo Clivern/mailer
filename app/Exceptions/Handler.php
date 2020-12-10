@@ -7,6 +7,7 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\ErrorCodes;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -41,6 +42,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
+        // Report unclassified exceptions
         parent::report($exception);
     }
 
@@ -55,6 +57,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        return parent::render($request, $exception);
+        if (config('app.debug')) {
+            return parent::render($request, $exception);
+        }
+        return response()->json([
+                'errorCode' => ErrorCodes::ERROR_SERVER_ERROR,
+                'errorMessage' => "Internal server error! Please contact system administrators.",
+                'correlationId' => $request->headers->get('X-Correlation-ID'),
+            ], Response::HTTP_BAD_REQUEST);
     }
 }

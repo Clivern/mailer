@@ -1,0 +1,13 @@
+{
+  "$id": "createMessageAction",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Create Message Action",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "string",
+      "minLength": 2
+    }
+  },
+  "required": ["value"]
+}

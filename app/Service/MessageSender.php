@@ -91,4 +91,16 @@ class MessageSender
             'createdAt' => $job->created_at
         ];
     }
+
+    /**
+     * Update Job status
+     *
+     * @param  string $id
+     * @param  string $status
+     * @return bool
+     */
+    public function updateJobStatus(string $uuid, string $status): bool
+    {
+        return $this->jobStatusRepository->updateJobStatusByUUID($uuid, $status);
+    }
 }

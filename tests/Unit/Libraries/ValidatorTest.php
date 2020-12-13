@@ -5,10 +5,10 @@
  * (c) Clivern <hello@clivern.com>
  */
 
-namespace Tests\Unit\Utils;
+namespace Tests\Unit\Libraries;
 
 use App\Exceptions\InvalidRequestException;
-use App\Utils\Validator;
+use App\Libraries\Validator;
 use Tests\TestCase;
 
 /**

@@ -8,8 +8,8 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SendEmail;
+use App\Libraries\Validator;
 use App\Service\MessageSender;
-use App\Utils\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 

@@ -8,7 +8,11 @@
 namespace Tests\Unit\Service;
 
 use App\Exceptions\InvalidRequestException;
+use App\Exceptions\ResourceNotFoundException;
+use App\Repository\JobStatusRepository;
 use App\Service\MessageSender;
+use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 use Tests\TestCase;
 
 /**
@@ -16,7 +20,11 @@ use Tests\TestCase;
  */
 class MessageSenderTest extends TestCase
 {
+    /** @var MessageSender */
     private $messageSender;
+
+    /** @var JobStatusRepository */
+    private $jobStatusRepository;
 
     /**
      * Setup
@@ -24,6 +32,51 @@ class MessageSenderTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->messageSender = new MessageSender();
+        $this->jobStatusRepository = new JobStatusRepository();
+        $this->messageSender = new MessageSender($this->jobStatusRepository);
+
+        $this->data = [
+            "from" => [
+                "email" => "from_address@example.com",
+                "name" => "Joe"
+            ],
+            "to" => [
+                [
+                    "email" => "to@example.com",
+                    "name" => "Joe"
+                ]
+            ],
+            "subject" => "Hello World",
+            "content" => [
+                "type" => "text/html",
+                "value" => "Something"
+            ]
+        ];
+    }
+
+    public function testDispatchMessage()
+    {
+        $result = $this->messageSender->dispatchMessage($this->data);
+
+        $logContent = file_get_contents(storage_path('logs/laravel.log'));
+
+        $this->assertTrue(Str::contains(
+            $logContent,
+            sprintf("Execute job with UUID %s", $result['id'])
+        ));
+
+        $job = $this->messageSender->getJobStatusByUUID($result['id']);
+        $this->assertSame($job['status'], $result["status"]);
+
+        $this->assertTrue($this->messageSender->updateJobStatus($job['id'], JobStatusRepository::FAILED_STATUS));
+
+        $job = $this->messageSender->getJobStatusByUUID($result['id']);
+        $this->assertSame($job['status'], JobStatusRepository::FAILED_STATUS);
+    }
+
+    public function testGetJobStatusByUUIDFailure()
+    {
+        $this->expectException(ResourceNotFoundException::class);
+        $this->messageSender->getJobStatusByUUID(Uuid::uuid4()->toString());
     }
 }

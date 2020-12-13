@@ -15,6 +15,7 @@ use Tests\TestCase;
  */
 class JobStatusRepositoryTest extends TestCase
 {
+    /** @var JobStatusRepository */
     private $jobStatusRepository;
 
     /**

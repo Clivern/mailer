@@ -18,7 +18,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        \App::bind('sendgrid', function () {
+            return new \App\Libraries\Mailer\SendgridClient([
+                'api_key' => config('mail.services.sendgrid.api_key')
+            ]);
+        });
     }
 
     /**

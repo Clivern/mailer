@@ -17,7 +17,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-        use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Log;
 
 /**
  * SendEmail Async Jobs
@@ -59,11 +59,40 @@ class SendEmail implements ShouldQueue
             $payload['message']['content']['value']
         );
 
-        Sendgrid::send($message);
+        // Switch between mail services at each attempt
+        // First we start with Sendgrid then Mailjet then Sendgrid ... etc
+        if ($this->attempts() % 2 === 0) {
+            Log::info(sprintf("Attempt to send the message with UUID %s using Mailjet", $this->jobStatus->uuid));
+            $status = Sendgrid::send($message);
+        } else {
+            Log::info(sprintf("Attempt to send the message with UUID %s using Sendgrid", $this->jobStatus->uuid));
+            $status = Sendgrid::send($message);
+        }
+
+        if (!$status) {
+            throw new \Exception("Failed to send email");
+        }
 
         $messageSender->updateJobStatus(
             $this->jobStatus->uuid,
             JobStatusRepository::SUCCEEDED_STATUS
         );
+
+        Log::info(sprintf("Finished job with UUID %s", $this->jobStatus->uuid));
+    }
+
+    /**
+     * Handle a job failure.
+     *
+     * @param  \Exception  $exception
+     * @return void
+     */
+    public function failed(\Exception $exception)
+    {
+        Log::error(sprintf(
+            "Failure while executing job with UUID %s: %s",
+            $this->jobStatus->uuid,
+            $exception->getMessage()
+        ));
     }
 }

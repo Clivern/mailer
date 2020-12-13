@@ -9,6 +9,7 @@ namespace Tests\Feature\Controllers;
 
 use App\Repository\JobStatusRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -50,6 +51,8 @@ class MessageControllerTest extends TestCase
      */
     public function testSuccess()
     {
+        Http::fake();
+
         $response = $this->postJson('/api/v1/message', $this->data);
         $logContent = file_get_contents(storage_path('logs/laravel.log'));
 

@@ -11,6 +11,7 @@ use App\Exceptions\InvalidRequestException;
 use App\Exceptions\ResourceNotFoundException;
 use App\Repository\JobStatusRepository;
 use App\Service\MessageSender;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
 use Tests\TestCase;
@@ -52,6 +53,8 @@ class MessageSenderTest extends TestCase
 
     public function testDispatchMessage()
     {
+        Http::fake();
+
         $result = $this->messageSender->dispatchMessage($this->data);
 
         $logContent = file_get_contents(storage_path('logs/laravel.log'));

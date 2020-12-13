@@ -36,10 +36,6 @@ class MessageSenderTest extends TestCase
         $this->messageSender = new MessageSender($this->jobStatusRepository);
 
         $this->data = [
-            "from" => [
-                "email" => "from_address@example.com",
-                "name" => "Joe"
-            ],
             "to" => [
                 [
                     "email" => "to@example.com",
@@ -48,7 +44,7 @@ class MessageSenderTest extends TestCase
             ],
             "subject" => "Hello World",
             "content" => [
-                "type" => "text/html",
+                "type" => "html",
                 "value" => "Something"
             ]
         ];
@@ -66,7 +62,7 @@ class MessageSenderTest extends TestCase
         ));
 
         $job = $this->messageSender->getJobStatusByUUID($result['id']);
-        $this->assertSame($job['status'], $result["status"]);
+        $this->assertSame(JobStatusRepository::PENDING_STATUS, $result["status"]);
 
         $this->assertTrue($this->messageSender->updateJobStatus($job['id'], JobStatusRepository::FAILED_STATUS));
 

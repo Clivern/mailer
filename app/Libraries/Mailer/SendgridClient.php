@@ -50,15 +50,20 @@ class SendgridClient implements ClientInterface
         }
 
         $response = Http::withHeaders([
-            'Authorization' => sprintf('Bearer %s', $this->configs["api_key"]),
+            'Authorization' => sprintf('Bearer %s', $this->configs['api_key']),
             'Content-Type' => 'application/json'
         ])->post(sprintf("%s/mail/send", SendgridClient::API_URL), [
             'personalizations' => [
-                'to' => $message->getTo(),
-                'from' => $message->getFrom(),
-                'subject' => $message->getSubject(),
-                'content' => $content
+                [
+                    "to" => $message->getTo()
+                ]
             ],
+            'from' => [
+                'email' => $this->configs['from']['email'],
+                'name' => $this->configs['from']['name']
+            ],
+            'subject' => $message->getSubject(),
+            'content' => [$content]
         ]);
 
         return (bool) $response->successful();

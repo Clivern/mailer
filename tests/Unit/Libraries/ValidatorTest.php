@@ -28,10 +28,6 @@ class ValidatorTest extends TestCase
         $this->validator = new Validator();
 
         $this->data = [
-            "from" => [
-                "email" => "from_address@example.com",
-                "name" => "Joe"
-            ],
             "to" => [
                 [
                     "email" => "to@example.com",
@@ -40,7 +36,7 @@ class ValidatorTest extends TestCase
             ],
             "subject" => "Hello World",
             "content" => [
-                "type" => "text/html",
+                "type" => "html",
                 "value" => "Something"
             ]
         ];

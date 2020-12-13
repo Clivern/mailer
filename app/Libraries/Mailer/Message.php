@@ -24,9 +24,6 @@ class Message
     private $subject = "";
 
     /** @var array */
-    private $from = [];
-
-    /** @var array */
     private $to = [];
 
     /** @var string */
@@ -40,22 +37,6 @@ class Message
     public function setSubject(string $subject): Message
     {
         $this->subject = $subject;
-
-        return $this;
-    }
-
-    /**
-     * Set Message From email & name
-     *
-     * @param string $email
-     * @param string $name
-     */
-    public function setFrom(string $email, string $name): Message
-    {
-        $this->from = [
-            "email" => $email,
-            "name" => $name
-        ];
 
         return $this;
     }
@@ -96,16 +77,6 @@ class Message
     public function getSubject(): string
     {
         return $this->subject;
-    }
-
-    /**
-     * Get message from name and email
-     *
-     * @return array
-     */
-    public function getFrom(): array
-    {
-        return $this->from;
     }
 
     /**

@@ -7,6 +7,7 @@
 
 namespace App\Jobs;
 
+use App\Libraries\Mailer\Message;
 use App\Libraries\Mailer\Sendgrid;
 use App\Model\JobStatus;
 use App\Repository\JobStatusRepository;
@@ -16,7 +17,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
+        use Illuminate\Support\Facades\Log;
 
 /**
  * SendEmail Async Jobs
@@ -48,8 +49,21 @@ class SendEmail implements ShouldQueue
     ) {
         Log::info(sprintf("Execute job with UUID %s", $this->jobStatus->uuid));
 
-        // Sendgrid::send($message)
-        // $messageSender->updateJobStatus($this->jobStatus->id, JobStatusRepository::SUCCEEDED_STATUS);
-        // $messageSender->updateJobStatus($this->jobStatus->id, JobStatusRepository::FAILED_STATUS);
+        $payload = json_decode($this->jobStatus->payload, true);
+
+        $message = new Message();
+        $message->setSubject($payload['message']['subject']);
+        $message->setTo($payload['message']['to']);
+        $message->setContent(
+            $payload['message']['content']['type'],
+            $payload['message']['content']['value']
+        );
+
+        Sendgrid::send($message);
+
+        $messageSender->updateJobStatus(
+            $this->jobStatus->uuid,
+            JobStatusRepository::SUCCEEDED_STATUS
+        );
     }
 }

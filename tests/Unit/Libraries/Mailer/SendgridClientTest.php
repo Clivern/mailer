@@ -27,7 +27,13 @@ class SendgridClientTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->sendgridClient = new SendgridClient(["api_key" => "123"]);
+        $this->sendgridClient = new SendgridClient([
+            'api_key' => '123',
+            'from' => [
+                'name' => 'testName',
+                'email' => 'test@example.com'
+            ]
+        ]);
     }
 
     /**
@@ -38,13 +44,12 @@ class SendgridClientTest extends TestCase
     public function testSend()
     {
         $message = new Message();
-        $message->setSubject("Hello");
-        $message->setFrom("from@example.com", "Joe");
+        $message->setSubject('Hello');
         $message->setTo([
-            "email" => "to@example.com",
-            "name" => "Doe"
+            'email' => 'to@example.com',
+            'name' => 'Doe'
         ]);
-        $message->setContent(Message::TEXT_TYPE, "Something");
+        $message->setContent(Message::TEXT_TYPE, 'Something');
 
         Http::fake();
 
@@ -53,11 +58,11 @@ class SendgridClientTest extends TestCase
         Http::assertSent(function (Request $request) {
             return $request->hasHeader('Authorization', 'Bearer 123') &&
                    $request->url() === 'https://api.sendgrid.com/v3/mail/send' &&
-                   $request['personalizations']['subject'] === 'Hello' &&
-                   $request['personalizations']['from']['email'] === 'from@example.com' &&
-                   $request['personalizations']['to']['email'] === 'to@example.com' &&
-                   $request['personalizations']['content']['value'] === 'Something' &&
-                   $request['personalizations']['content']['type'] === 'text/plain';
+                   $request['subject'] === 'Hello' &&
+                   $request['from']['email'] === 'test@example.com' &&
+                   $request['personalizations'][0]['to']['email'] === 'to@example.com' &&
+                   $request['content'][0]['value'] === 'Something' &&
+                   $request['content'][0]['type'] === 'text/plain';
         });
     }
 }

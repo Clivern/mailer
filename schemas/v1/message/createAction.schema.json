@@ -19,6 +19,7 @@
                "email":{
                   "id":"email",
                   "type":"string",
+                  "format": "email",
                   "description":"The receiver email address",
                   "minLength":1,
                   "maxLength":60
@@ -36,27 +37,6 @@
             ]
          }
       },
-      "from":{
-         "type":"object",
-         "properties":{
-            "email":{
-               "id":"email",
-               "type":"string",
-               "description":"The sender email address",
-               "minLength":1,
-               "maxLength":60
-            },
-            "name":{
-               "id":"name",
-               "type":"string",
-               "description":"The sender name",
-               "maxLength":60
-            }
-         },
-         "required":[
-            "email"
-         ]
-      },
       "content":{
          "type":"object",
          "properties":{
@@ -65,8 +45,9 @@
                "type":"string",
                "description":"The message type",
                "enum":[
-                  "text/html",
-                  "text/plain"
+                  "html",
+                  "text",
+                  "markdown"
                ]
             },
             "value":{
@@ -85,7 +66,6 @@
    "required":[
       "subject",
       "to",
-      "from",
       "content"
    ]
 }

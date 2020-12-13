@@ -31,10 +31,6 @@ class MessageControllerTest extends TestCase
         $this->jobStatusRepository = new JobStatusRepository();
 
         $this->data = [
-            "from" => [
-                "email" => "from_address@example.com",
-                "name" => "Joe"
-            ],
             "to" => [
                 [
                     "email" => "to@example.com",
@@ -43,7 +39,7 @@ class MessageControllerTest extends TestCase
             ],
             "subject" => "Hello World",
             "content" => [
-                "type" => "text/html",
+                "type" => "html",
                 "value" => "Something"
             ]
         ];

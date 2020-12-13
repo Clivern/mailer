@@ -7,6 +7,8 @@
 
 namespace App\Providers;
 
+use App\Jobs\SendEmail;
+use App\Service\MessageSender;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,8 +22,16 @@ class AppServiceProvider extends ServiceProvider
     {
         \App::bind('sendgrid', function () {
             return new \App\Libraries\Mailer\SendgridClient([
-                'api_key' => config('mail.services.sendgrid.api_key')
+                'api_key' => config('mail.services.sendgrid.api_key'),
+                'from' => [
+                    'email' => config('mail.from.address'),
+                    'name' => config('mail.from.name')
+                ]
             ]);
+        });
+
+        $this->app->bindMethod(SendEmail::class.'@handle', function ($job, $app) {
+            return $job->handle($app->make(MessageSender::class));
         });
     }
 

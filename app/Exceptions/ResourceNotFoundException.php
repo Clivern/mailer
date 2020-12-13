@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Log;
 use Throwable;
 
 /**
- * Class InvalidRequestException.
+ * Class ResourceNotFoundException.
  */
-class InvalidRequestException extends BaseException
+class ResourceNotFoundException extends BaseException
 {
     /**
      * Class Constructor.
@@ -28,7 +28,7 @@ class InvalidRequestException extends BaseException
      */
     public function __construct(
         string $message,
-        $errorCode = ErrorCodes::ERROR_INVALID_REQUEST,
+        $errorCode = ErrorCodes::ERROR_NOT_FOUND,
         $code = 0,
         Exception $previous = null
     ) {
@@ -57,7 +57,7 @@ class InvalidRequestException extends BaseException
     public function report()
     {
         // Report for development debugging
-        Log::debug(sprintf("InvalidRequest Exception raised: %s", $this->getMessage()));
+        Log::debug(sprintf("ResourceNotFound Exception raised: %s", $this->getMessage()));
     }
 
     /**
@@ -72,6 +72,6 @@ class InvalidRequestException extends BaseException
             'errorCode' => $this->getErrorCode(),
             'errorMessage' => $this->getMessage(),
             'correlationId' => $request->headers->get('X-Correlation-ID'),
-        ], Response::HTTP_BAD_REQUEST);
+        ], Response::HTTP_NOT_FOUND);
     }
 }

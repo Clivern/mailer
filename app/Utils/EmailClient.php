@@ -7,11 +7,11 @@ declare(strict_types=1);
  * (c) Clivern <hello@clivern.com>
  */
 
-namespace App\Repository;
+namespace App\Utils;
 
 /**
- * Failed Job Repository
+ * Email Client.
  */
-class FailedJobRepository
+class EmailClient
 {
 }

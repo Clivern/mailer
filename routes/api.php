@@ -27,5 +27,5 @@ Route::prefix('v1')->group(function () {
     Route::post('/message', [MessageController::class, 'sendAction']);
 
     // Job Endpoints
-    Route::get('/job/{id}', [JobController::class, 'getAction'])->where('id', '[0-9]+');
+    Route::get('/job/{id}', [JobController::class, 'getAction']);
 });

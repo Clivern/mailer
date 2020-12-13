@@ -11,15 +11,23 @@ namespace App\Repository;
 
 use App\Model\JobStatus;
 
+/**
+ * Job Status Repository
+ */
 class JobStatusRepository
 {
+    const PENDING_STATUS = "PENDING";
+    const SUCCEEDED_STATUS = "SUCCEEDED";
+    const FAILED_STATUS = "FAILED";
+    const ERROR_STATUS = "ERROR";
+    const SEND_MESSAGE_TYPE = 'message.send';
+
     /**
      * Get an Job by UUID.
      */
     public function getOneByUUID(string $uuid): ?JobStatus
     {
-        return JobStatus::where('uuid', $uuid)
-               ->first();
+        return JobStatus::where('uuid', $uuid)->first();
     }
 
     /**
@@ -27,14 +35,13 @@ class JobStatusRepository
      */
     public function getOneByID(int $id): ?JobStatus
     {
-        return JobStatus::where('id', $id)
-               ->first();
+        return JobStatus::where('id', $id)->first();
     }
 
     /**
      * Insert a New JobStatus.
      */
-    public function insertOne(array $data): int
+    public function insertOne(array $data): JobStatus
     {
         $jobStatus = new JobStatus();
 
@@ -45,7 +52,7 @@ class JobStatusRepository
 
         $jobStatus->save();
 
-        return $jobStatus->id;
+        return $jobStatus;
     }
 
     /**
@@ -53,8 +60,9 @@ class JobStatusRepository
      */
     public function updateJobStatusById(int $id, string $status): bool
     {
-        return (bool) JobStatus::where('id', $id)
-            ->update(['status' => $status]);
+        return (bool) JobStatus::where('id', $id)->update([
+            'status' => $status
+        ]);
     }
 
 
@@ -63,7 +71,8 @@ class JobStatusRepository
      */
     public function updateJobStatusByUUID(string $uuid, string $status): bool
     {
-        return (bool) JobStatus::where('uuid', $uuid)
-            ->update(['status' => $status]);
+        return (bool) JobStatus::where('uuid', $uuid)->update([
+            'status' => $status
+        ]);
     }
 }

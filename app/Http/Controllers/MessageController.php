@@ -8,8 +8,10 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SendEmail;
+use App\Service\MessageSender;
 use App\Utils\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 /**
  * Message Controller
@@ -19,14 +21,19 @@ class MessageController extends Controller
     /** @var Validator $validator */
     private $validator;
 
+    /** @var MessageSender $messageSender */
+    private $messageSender;
+
     /**
      * Class constructor
      *
      * @param Validator $validator
+     * @param MessageSender $messageSender
      */
-    public function __construct(Validator $validator)
+    public function __construct(Validator $validator, MessageSender $messageSender)
     {
         $this->validator = $validator;
+        $this->messageSender = $messageSender;
     }
 
     /**
@@ -39,17 +46,8 @@ class MessageController extends Controller
         # Validate
         $this->validator->validate($request->getContent(), 'v1/message/createAction.schema.json');
 
-        $job = (new SendEmail(json_decode($request->getContent())))->onQueue('messages');
-        $jobId = dispatch($job);
+        $result = $this->messageSender->dispatchMessage(json_decode($request->getContent(), true));
 
-        var_dump($job);
-        var_dump($jobId);
-
-        return response()->json([
-            'id' => $jobId,
-            'name' => 'message.send',
-            'status' => 'PENDING',
-            //'createdAt' => $job->created_at
-        ]);
+        return response()->json($result, Response::HTTP_ACCEPTED);
     }
 }

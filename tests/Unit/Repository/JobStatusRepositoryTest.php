@@ -15,7 +15,7 @@ use Tests\TestCase;
  */
 class JobStatusRepositoryTest extends TestCase
 {
-    private $validator;
+    private $jobStatusRepository;
 
     /**
      * Setup
@@ -31,7 +31,7 @@ class JobStatusRepositoryTest extends TestCase
      */
     public function testGetOneByUUID()
     {
-        $jobId = $this->jobStatusRepository->insertOne([
+        $jobObj = $this->jobStatusRepository->insertOne([
             "uuid" => "x-x-x-x",
             "status" => "PENDING",
             "type" => "messages.action",
@@ -40,7 +40,7 @@ class JobStatusRepositoryTest extends TestCase
 
         $job = $this->jobStatusRepository->getOneByUUID("x-x-x-x");
 
-        $this->assertSame($jobId, $job->id);
+        $this->assertSame($jobObj->id, $job->id);
         $this->assertSame($job->uuid, "x-x-x-x");
         $this->assertSame($this->jobStatusRepository->getOneByUUID("x-x-x-x-x"), null);
     }
@@ -50,14 +50,14 @@ class JobStatusRepositoryTest extends TestCase
      */
     public function testGetOneByID()
     {
-        $jobId = $this->jobStatusRepository->insertOne([
+        $jobObj = $this->jobStatusRepository->insertOne([
             "uuid" => "y-y-y-y",
             "status" => "PENDING",
             "type" => "messages.action",
             "payload" => "{}"
         ]);
 
-        $job = $this->jobStatusRepository->getOneByID($jobId);
+        $job = $this->jobStatusRepository->getOneByID($jobObj->id);
 
         $this->assertSame($job->uuid, "y-y-y-y");
         $this->assertSame($job->status, "PENDING");
@@ -69,17 +69,17 @@ class JobStatusRepositoryTest extends TestCase
      */
     public function testUpdateJobStatusById()
     {
-        $jobId = $this->jobStatusRepository->insertOne([
+        $jobObj = $this->jobStatusRepository->insertOne([
             "uuid" => "z-z-z-z",
             "status" => "PENDING",
             "type" => "messages.action",
             "payload" => "{}"
         ]);
 
-        $this->assertTrue($this->jobStatusRepository->updateJobStatusById($jobId, "FAILED"));
+        $this->assertTrue($this->jobStatusRepository->updateJobStatusById($jobObj->id, "FAILED"));
         $this->assertFalse($this->jobStatusRepository->updateJobStatusById(1222, "FAILED"));
 
-        $job = $this->jobStatusRepository->getOneByID($jobId);
+        $job = $this->jobStatusRepository->getOneByID($jobObj->id);
 
         $this->assertSame($job->status, "FAILED");
     }
@@ -89,7 +89,7 @@ class JobStatusRepositoryTest extends TestCase
      */
     public function testUpdateJobStatusByUUID()
     {
-        $jobId = $this->jobStatusRepository->insertOne([
+        $jobObj = $this->jobStatusRepository->insertOne([
             "uuid" => "j-j-j-j",
             "status" => "PENDING",
             "type" => "messages.action",
@@ -99,7 +99,7 @@ class JobStatusRepositoryTest extends TestCase
         $this->assertTrue($this->jobStatusRepository->updateJobStatusByUUID("j-j-j-j", "SUCCESS"));
         $this->assertFalse($this->jobStatusRepository->updateJobStatusByUUID("j-j-j-j-j", "FAILED"));
 
-        $job = $this->jobStatusRepository->getOneByID($jobId);
+        $job = $this->jobStatusRepository->getOneByID($jobObj->id);
 
         $this->assertSame($job->status, "SUCCESS");
     }

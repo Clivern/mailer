@@ -7,7 +7,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Utils\Validator;
+use App\Service\MessageSender;
 use Illuminate\Http\Request;
 
 /**
@@ -15,30 +15,28 @@ use Illuminate\Http\Request;
  */
 class JobController extends Controller
 {
-    /** @var Validator $validator */
-    private $validator;
+    /** @var MessageSender $messageSender */
+    private $messageSender;
 
     /**
      * Class constructor
      *
-     * @param Validator $validator
+     * @param MessageSender $messageSender
      */
-    public function __construct(Validator $validator)
+    public function __construct(MessageSender $messageSender)
     {
-        $this->validator = $validator;
+        $this->messageSender = $messageSender;
     }
 
     /**
-     * Get Job by ID Action
+     * Get Job by UUID Action
      *
-     * @param  int    $id
+     * @param  string    $id
      */
     public function getAction($id)
     {
-        // Get Job By ID
+        $result = $this->messageSender->getJobStatusByUUID($id);
 
-        return response()->json([
-            'status' => 'ok'
-        ]);
+        return response()->json($result);
     }
 }

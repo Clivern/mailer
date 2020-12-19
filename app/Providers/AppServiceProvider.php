@@ -30,6 +30,17 @@ class AppServiceProvider extends ServiceProvider
             ]);
         });
 
+        \App::bind('mailjet', function () {
+            return new \App\Libraries\Mailer\MailjetClient([
+                'api_public_key' => config('mail.services.mailjet.api_public_key'),
+                'api_private_key' => config('mail.services.mailjet.api_private_key'),
+                'from' => [
+                    'email' => config('mail.from.address'),
+                    'name' => config('mail.from.name')
+                ]
+            ]);
+        });
+
         $this->app->bindMethod(SendEmail::class.'@handle', function ($job, $app) {
             return $job->handle($app->make(MessageSender::class));
         });

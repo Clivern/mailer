@@ -46,8 +46,10 @@ class SendgridClientTest extends TestCase
         $message = new Message();
         $message->setSubject('Hello');
         $message->setTo([
-            'email' => 'to@example.com',
-            'name' => 'Doe'
+            [
+                'email' => 'to@example.com',
+                'name' => 'toName'
+            ]
         ]);
         $message->setContent(Message::TEXT_TYPE, 'Something');
 
@@ -60,7 +62,7 @@ class SendgridClientTest extends TestCase
                    $request->url() === 'https://api.sendgrid.com/v3/mail/send' &&
                    $request['subject'] === 'Hello' &&
                    $request['from']['email'] === 'test@example.com' &&
-                   $request['personalizations'][0]['to']['email'] === 'to@example.com' &&
+                   $request['personalizations'][0]['to'][0]['email'] === 'to@example.com' &&
                    $request['content'][0]['value'] === 'Something' &&
                    $request['content'][0]['type'] === 'text/plain';
         });

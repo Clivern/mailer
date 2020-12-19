@@ -27,8 +27,8 @@ class SendEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    /** @var JobStatus */
     protected $jobStatus;
-    protected $messageSender;
 
     /**
      * Create a new job instance.
@@ -72,7 +72,7 @@ class SendEmail implements ShouldQueue
         }
 
         if (!$status) {
-            throw new \Exception("Failed to send email");
+            throw new \Exception("Failed to send the email");
         }
 
         $messageSender->updateJobStatus(

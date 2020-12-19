@@ -7,8 +7,12 @@
 
 namespace App\Console\Commands;
 
+use App\Service\MessageSender;
 use Illuminate\Console\Command;
 
+/**
+ * Send a message command
+ */
 class SendMessage extends Command
 {
     /**
@@ -16,23 +20,29 @@ class SendMessage extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = "message:send {--to_email=} {--to_name=} {--subject=} {--type=} {--body=}";
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Send a message';
+
+    /**
+     * @var MessageSender
+     */
+    protected $messageSender;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(MessageSender $messageSender)
     {
         parent::__construct();
+        $this->messageSender = $messageSender;
     }
 
     /**
@@ -42,6 +52,27 @@ class SendMessage extends Command
      */
     public function handle()
     {
-        return 0;
+        try {
+            $result = $this->messageSender->dispatchMessage([
+                "to" => [
+                    [
+                        "email" => $this->option('to_email'),
+                        "name" => $this->option('to_name')
+                    ]
+                ],
+                "subject" => $this->option('subject'),
+                "content" => [
+                    "type" => $this->option('type'),
+                    "value" => $this->option('body')
+                ]
+            ]);
+
+            $this->info(sprintf(
+                'A Job with id %s got created to send the message',
+                $result["id"]
+            ));
+        } catch (\Exception $e) {
+            $this->error(sprintf('Something gone wrong: %s'. $e->getMessage()));
+        }
     }
 }

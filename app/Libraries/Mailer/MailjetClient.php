@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace App\Libraries\Mailer;
 
+use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Support\Facades\Http;
 
 /**

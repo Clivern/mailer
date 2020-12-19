@@ -7,7 +7,7 @@
 
 namespace App\Jobs;
 
-use App\Libraries\Mailer\MailjetClient;
+use App\Libraries\Mailer\Mailjet;
 use App\Libraries\Mailer\Message;
 use App\Libraries\Mailer\Sendgrid;
 use App\Model\JobStatus;
@@ -28,6 +28,7 @@ class SendEmail implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $jobStatus;
+    protected $messageSender;
 
     /**
      * Create a new job instance.
@@ -64,7 +65,7 @@ class SendEmail implements ShouldQueue
         // First we start with Sendgrid then Mailjet then Sendgrid ... etc
         if ($this->attempts() % 2 === 0) {
             Log::info(sprintf("Attempt to send the message with UUID %s using Mailjet", $this->jobStatus->uuid));
-            $status = MailjetClient::send($message);
+            $status = Mailjet::send($message);
         } else {
             Log::info(sprintf("Attempt to send the message with UUID %s using Sendgrid", $this->jobStatus->uuid));
             $status = Sendgrid::send($message);
@@ -95,5 +96,10 @@ class SendEmail implements ShouldQueue
             $this->jobStatus->uuid,
             $exception->getMessage()
         ));
+
+        (new JobStatusRepository())->updateJobStatusByUUID(
+            $this->jobStatus->uuid,
+            JobStatusRepository::FAILED_STATUS
+        );
     }
 }

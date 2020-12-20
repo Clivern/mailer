@@ -27,7 +27,7 @@ services:
     networks:
       - app-network
     restart: unless-stopped
-    command: 'php artisan queue:work --queue=messages --tries=10 --max-time=3600'
+    command: 'php artisan queue:work --tries=10 --max-time=3600'
     entrypoint: /entrypoint.sh
 
   # Database

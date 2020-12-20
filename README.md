@@ -14,16 +14,16 @@ $ cp .env.example .env
 You need to provide the following configs
 
 ```
-DB_CONNECTION=sqlite
+DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=database.sqlite
+DB_DATABASE=mailer
 DB_USERNAME=root
-DB_PASSWORD=
+DB_PASSWORD=root
 DB_FOREIGN_KEYS=true
 
 MAIL_FROM_ADDRESS=from@example.com
-MAIL_FROM_NAME="${APP_NAME}"
+MAIL_FROM_NAME="Mailer"
 
 SENDGRID_API_KEY=
 MAILJET_PUBLIC_API_KEY=
@@ -51,15 +51,30 @@ $ ./artisan queue:work --tries=10
 To send email from the command line
 
 ```
+# Text Email
 $  ./artisan message:send --to_email hello@example.com --subject "Hello" --type text --body "Hello World" --to_name Somebody
+
+# HTML Email
+$  ./artisan message:send --to_email hello@example.com --subject "Hello" --type html --body "<h3>Hello World</h3>" --to_name Somebody
+
+# Markdown Email
+$  ./artisan message:send --to_email hello@example.com --subject "Hello" --type markdown --body "## Hello World" --to_name Somebody
 ```
 
 To send email through API
 
 ```
-# Test Email
+# Text Email
 $ curl -X POST http://127.0.0.1:8000/api/v1/message \
     -d '{"to": [{"email": "hello@example.com", "name": "Somebody"}], "subject":"Hello", "content":{"type":"text", "value": "Hello World"}}'
+
+# HTML Email
+$ curl -X POST http://127.0.0.1:8000/api/v1/message \
+    -d '{"to": [{"email": "hello@example.com", "name": "Somebody"}], "subject":"Hello", "content":{"type":"html", "value": "<h3>Hello World<h3>"}}'
+
+# Markdown Email
+$ curl -X POST http://127.0.0.1:8000/api/v1/message \
+    -d '{"to": [{"email": "hello@example.com", "name": "Somebody"}], "subject":"Hello", "content":{"type":"markdown", "value": "## Hello World"}}'
 ```
 
 ### Deployment
@@ -72,11 +87,37 @@ Create `.env` file from `.env.docker`
 $ cp .env.docker .env
 ```
 
-Update `.env` file
+Update `.env` file with your sendgrid and mailjet credentials
+
+```
+MAIL_FROM_ADDRESS=from@example.com
+MAIL_FROM_NAME="Mailer"
+
+SENDGRID_API_KEY=
+MAILJET_PUBLIC_API_KEY=
+MAILJET_PRIVATE_API_KEY=
+```
+
+Build docker images and run containers
 
 ```bash
 $ docker-compose up -d
 ```
+
+Send test emails
+
+```
+# Test Email
+$ curl -X POST http://127.0.0.1:8000/api/v1/message \
+    -d '{"to": [{"email": "hello@example.com", "name": "Somebody"}], "subject":"Hello", "content":{"type":"text", "value": "Hello World"}}'
+
+$ curl -X POST http://127.0.0.1:8000/api/v1/message \
+    -d '{"to": [{"email": "hello@example.com", "name": "Somebody"}], "subject":"Hello", "content":{"type":"html", "value": "<h3>Hello World<h3>"}}'
+
+$ curl -X POST http://127.0.0.1:8000/api/v1/message \
+    -d '{"to": [{"email": "hello@example.com", "name": "Somebody"}], "subject":"Hello", "content":{"type":"markdown", "value": "## Hello World"}}'
+```
+
 
 ### Scaling
 

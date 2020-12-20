@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3"
 
 services:
 
@@ -11,15 +11,12 @@ services:
     container_name: app
     working_dir: /var/www/
     volumes:
-      - ./:/var/www
+      - 'app_storage:/var/www/storage'
     networks:
       - app-network
     restart: unless-stopped
-    healthcheck:
-        test: ["CMD", "curl", "-f", "http://localhost:8000/_health"]
-        interval: 10s
-        timeout: 5s
-        retries: 5
+    command: 'php-fpm'
+    entrypoint: /entrypoint.sh
 
   # Database
   db:
@@ -48,18 +45,13 @@ services:
     image: nginx:alpine
     container_name: webserver
     ports:
-      - 8000:80
+      - "80:80"
     volumes:
       - ./:/var/www
       - ./docker/nginx:/etc/nginx/conf.d/
     networks:
       - app-network
     restart: unless-stopped
-    healthcheck:
-        test: '/bin/bash service nginx status || exit 1'
-        interval: 5s
-        timeout: 1s
-        retries: 5
 
 networks:
   app-network:

@@ -1,15 +1,21 @@
 FROM php:7.4-fpm
 
-# Copy composer.lock and composer.json
-COPY composer.lock composer.json /var/www/
-
 # Set working directory
 WORKDIR /var/www
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
+    libonig-dev \
+    libzip-dev \
+    locales \
+    zip \
+    unzip \
     curl
+
+COPY entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -30,12 +36,19 @@ COPY . /var/www
 # Copy existing application directory permissions
 COPY --chown=www:www . /var/www
 
-# Change current user to www
-USER www
+VOLUME /var/www/storage
 
 RUN composer install
 
-# Expose port 8000 and start php-fpm server
-EXPOSE 8000
+RUN chown -R www:www /var/www
+RUN chmod -R 775 /var/www/storage
+RUN chown -R www:www /var/www/storage
+RUN chmod g+s /var/www/storage
+
+# Change current user to www
+USER www
+
+# Expose port 9000 and start php-fpm server
+EXPOSE 9000
 
 CMD ["php-fpm"]

@@ -10,7 +10,7 @@ namespace App\Jobs;
 use App\Libraries\Mailer\Mailjet;
 use App\Libraries\Mailer\Message;
 use App\Libraries\Mailer\Sendgrid;
-use App\Model\JobStatus;
+use App\Models\JobStatus;
 use App\Repository\JobStatusRepository;
 use App\Service\MessageSender;
 use Illuminate\Bus\Queueable;

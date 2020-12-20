@@ -5,16 +5,16 @@
  * (c) Clivern <hello@clivern.com>
  */
 
-namespace App\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FailedJob extends Model
+class Job extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'failed_jobs';
+    protected $table = 'jobs';
 }

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Model\JobStatus;
+use App\Models\JobStatus;
 
 /**
  * Job Status Repository

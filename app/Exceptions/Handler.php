@@ -32,6 +32,18 @@ class Handler extends ExceptionHandler
     ];
 
     /**
+     * Register the exception handling callbacks for the application.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->reportable(function (Throwable $e) {
+            //
+        });
+    }
+
+    /**
      * Report or log an exception.
      *
      * @param  \Throwable  $exception
@@ -41,6 +53,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
+        // Report unclassified exceptions
         parent::report($exception);
     }
 
@@ -55,6 +68,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        return parent::render($request, $exception);
+        if (config('app.debug')) {
+            return parent::render($request, $exception);
+        }
+        return response()->json([
+                'errorCode' => ErrorCodes::ERROR_SERVER_ERROR,
+                'errorMessage' => "Internal server error! Please contact system administrators.",
+                'correlationId' => $request->headers->get('X-Correlation-ID'),
+            ], Response::HTTP_BAD_REQUEST);
     }
 }

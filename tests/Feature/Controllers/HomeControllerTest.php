@@ -5,22 +5,22 @@
  * (c) Clivern <hello@clivern.com>
  */
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controllers;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ExampleTest extends TestCase
+/**
+ * Home Controller Test
+ */
+class HomeControllerTest extends TestCase
 {
     /**
-     * A basic test example.
-     *
      * @return void
      */
-    public function testBasicTest()
+    public function testIndex()
     {
         $response = $this->get('/');
-
         $response->assertStatus(200);
     }
 }

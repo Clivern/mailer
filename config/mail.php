@@ -112,4 +112,19 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Mail Services
+    |--------------------------------------------------------------------------
+    |
+    */
+    "services" => [
+        "sendgrid" => [
+            "api_key" => env('SENDGRID_API_KEY', '')
+        ],
+        "mailjet" => [
+            "api_public_key" => env('MAILJET_PUBLIC_API_KEY', ''),
+            "api_private_key" => env('MAILJET_PRIVATE_API_KEY', '')
+        ]
+    ]
 ];

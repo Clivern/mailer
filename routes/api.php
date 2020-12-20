@@ -5,6 +5,9 @@
  * (c) Clivern <hello@clivern.com>
  */
 
+use App\Http\Controllers\HealthController;
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +22,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('v1')->group(function () {
+    // Message Endpoints
+    Route::post('/message', [MessageController::class, 'sendAction']);
+
+    // Job Endpoints
+    Route::get('/job/{id}', [JobController::class, 'getAction']);
 });

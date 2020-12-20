@@ -1,0 +1,70 @@
+version: "3"
+
+services:
+
+  # Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: clivern/mailer:1.0.0
+    container_name: app
+    working_dir: /var/www/
+    networks:
+      - app-network
+    restart: unless-stopped
+    command: 'php-fpm'
+    entrypoint: /entrypoint.sh
+
+  # Queue
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: clivern/mailer:1.0.0
+    container_name: worker
+    working_dir: /var/www/
+    networks:
+      - app-network
+    restart: unless-stopped
+    command: 'php artisan queue:work --tries=10 --max-time=3600'
+    entrypoint: /entrypoint.sh
+
+  # Database
+  db:
+    image: mysql:5.7
+    container_name: db
+    environment:
+      # Docker Compose automatically loads .env variable files located in the same directory as the docker-compose.yml file,
+      # we can obtain our database settings from the Laravel
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+        test: '/usr/bin/mysql --user=${DB_USERNAME} --password=${DB_PASSWORD} --execute "SHOW DATABASES;"'
+        interval: 10s
+        timeout: 5s
+        retries: 5
+
+  # Webserver
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d/
+    networks:
+      - app-network
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge

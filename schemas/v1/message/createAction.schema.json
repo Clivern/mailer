@@ -1,0 +1,71 @@
+{
+   "$id":"createMessageAction",
+   "$schema":"http://json-schema.org/draft-07/schema#",
+   "description":"Create Message Action",
+   "type":"object",
+   "properties":{
+      "subject":{
+         "type":"string",
+         "description":"The message subject",
+         "minLength":1,
+         "maxLength":100
+      },
+      "to":{
+         "type":"array",
+         "minItems":1,
+         "items":{
+            "type":"object",
+            "properties":{
+               "email":{
+                  "id":"email",
+                  "type":"string",
+                  "format": "email",
+                  "description":"The receiver email address",
+                  "minLength":1,
+                  "maxLength":60
+               },
+               "name":{
+                  "id":"name",
+                  "type":"string",
+                  "description":"The receiver name",
+                  "maxLength":60
+               }
+            },
+            "required":[
+               "email",
+               "name"
+            ]
+         }
+      },
+      "content":{
+         "type":"object",
+         "properties":{
+            "type":{
+               "id":"type",
+               "type":"string",
+               "description":"The message type",
+               "enum":[
+                  "html",
+                  "text",
+                  "markdown"
+               ]
+            },
+            "value":{
+               "id":"name",
+               "type":"string",
+               "description":"The message value",
+               "minLength":1,
+               "maxLength":10000
+            }
+         },
+         "required":[
+            "value", "type"
+         ]
+      }
+   },
+   "required":[
+      "subject",
+      "to",
+      "content"
+   ]
+}

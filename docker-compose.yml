@@ -10,12 +10,24 @@ services:
     image: clivern/mailer:1.0.0
     container_name: app
     working_dir: /var/www/
-    volumes:
-      - 'app_storage:/var/www/storage'
     networks:
       - app-network
     restart: unless-stopped
     command: 'php-fpm'
+    entrypoint: /entrypoint.sh
+
+  # Queue
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: clivern/mailer:1.0.0
+    container_name: worker
+    working_dir: /var/www/
+    networks:
+      - app-network
+    restart: unless-stopped
+    command: 'php artisan queue:work --queue=messages --max-time=3600'
     entrypoint: /entrypoint.sh
 
   # Database

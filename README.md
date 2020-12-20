@@ -66,10 +66,17 @@ $ curl -X POST http://127.0.0.1:8000/api/v1/message \
 
 #### With docker-compose
 
+Create `.env` file from `.env.docker`
+
+```bash
+$ cp .env.docker .env
+```
+
+Update `.env` file
+
 ```bash
 $ docker-compose up -d
 ```
-
 
 ### Scaling
 

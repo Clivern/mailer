@@ -1,55 +1,66 @@
-version: '3'
+version: "3.7"
+
 services:
+
+  # Application
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    image: digitalocean.com/php
+    image: clivern/mailer:1.0.0
     container_name: app
-    restart: unless-stopped
-    tty: true
-    environment:
-      SERVICE_NAME: app
-      SERVICE_TAGS: dev
-    working_dir: /var/www
+    working_dir: /var/www/
     volumes:
-      - './:/var/www'
-      - './php/local.ini:/usr/local/etc/php/conf.d/local.ini'
+      - ./:/var/www
     networks:
       - app-network
-  webserver:
-    image: 'nginx:alpine'
-    container_name: webserver
     restart: unless-stopped
-    tty: true
-    ports:
-      - '80:80'
-      - '443:443'
-    volumes:
-      - './:/var/www'
-      - './nginx/conf.d/:/etc/nginx/conf.d/'
-    networks:
-      - app-network
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:8000/_health"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+
+  # Database
   db:
-    image: 'mysql:5.7.22'
+    image: mysql:5.7
     container_name: db
-    restart: unless-stopped
-    tty: true
-    ports:
-      - '3306:3306'
     environment:
-      MYSQL_DATABASE: laravel
-      MYSQL_ROOT_PASSWORD: your_mysql_root_password
+      # Docker Compose automatically loads .env variable files located in the same directory as the docker-compose.yml file,
+      # we can obtain our database settings from the Laravel
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
-    volumes:
-      - 'dbdata:/var/lib/mysql/'
-      - './mysql/my.cnf:/etc/mysql/my.cnf'
     networks:
       - app-network
+    restart: unless-stopped
+    healthcheck:
+        test: '/usr/bin/mysql --user=${DB_USERNAME} --password=${DB_PASSWORD} --execute "SHOW DATABASES;"'
+        interval: 10s
+        timeout: 5s
+        retries: 5
+
+  # Webserver
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d/
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+        test: '/bin/bash service nginx status || exit 1'
+        interval: 5s
+        timeout: 1s
+        retries: 5
+
 networks:
   app-network:
     driver: bridge
-volumes:
-  dbdata:
-    driver: local

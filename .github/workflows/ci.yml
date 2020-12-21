@@ -1,10 +1,6 @@
 name: CI Build
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -28,3 +24,5 @@ jobs:
 
     - name: Run CI
       run: make ci
+      env:
+        PHP_CS_FIXER_IGNORE_ENV: 1

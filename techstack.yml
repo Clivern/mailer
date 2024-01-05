@@ -2,11 +2,11 @@ repo_name: Clivern/mailer
 report_id: c80b70860895744fd5b71e427becafe6
 version: 0.1
 repo_type: Public
-timestamp: '2023-12-21T15:22:22+00:00'
+timestamp: '2024-01-05T08:18:29+00:00'
 requested_by: Clivern
 provider: github
 branch: main
-detected_tools_count: 36
+detected_tools_count: 37
 tools:
 - name: JavaScript
   description: Lightweight, interpreted, object-oriented language with first-class
@@ -17,6 +17,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/1209/javascript.jpeg
+  detection_source_url: https://github.com/Clivern/mailer/blob/main/package.json
   detection_source: package.json
   last_updated_by: Clivern
   last_updated_on: 2020-12-09 09:31:19.000000000 Z
@@ -29,6 +30,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/991/hwUcGZ41_400x400.jpg
+  detection_source_url: https://github.com/Clivern/mailer
   detection_source: Repo Metadata
 - name: Guzzle
   description: PHP HTTP client that makes it easy to send HTTP requests and trivial
@@ -40,6 +42,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Microframeworks (Backend)
   image_url: https://img.stackshare.io/service/2350/638632.png
+  detection_source_url: https://github.com/Clivern/mailer/blob/main/composer.json
   detection_source: composer.json
   last_updated_by: Ahmed⠙
   last_updated_on: 2020-12-20 17:57:59.000000000 Z
@@ -64,6 +67,7 @@ tools:
   category: Data Stores
   sub_category: SQL Database as a Service
   image_url: https://img.stackshare.io/service/21275/default_078eb0ae2b56280a937ed073a3ba4332291f9ba8.png
+  detection_source_url: https://github.com/Clivern/mailer/blob/main/docker-compose.yml
   detection_source: docker-compose.yml
   last_updated_by: Ahmed⠙
   last_updated_on: 2020-12-20 17:57:59.000000000 Z
@@ -89,6 +93,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Virtual Machine Platforms & Containers
   image_url: https://img.stackshare.io/service/586/n4u37v9t_400x400.png
+  detection_source_url: https://github.com/Clivern/mailer
   detection_source: Repo Metadata
 - name: Docker Compose
   description: Define and run multi-container applications with Docker
@@ -99,6 +104,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Container Tools
   image_url: https://img.stackshare.io/service/3136/docker-compose.png
+  detection_source_url: https://github.com/Clivern/mailer/blob/main/docker-compose.yml
   detection_source: docker-compose.yml
   last_updated_by: Ahmed⠙
   last_updated_on: 2020-12-20 17:57:59.000000000 Z
@@ -110,6 +116,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Version Control System
   image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/Clivern/mailer
   detection_source: Repo Metadata
 - name: GitHub Actions
   description: Automate your workflow from idea to production
@@ -119,6 +126,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Continuous Integration
   image_url: https://img.stackshare.io/service/11563/actions.png
+  detection_source_url: https://github.com/Clivern/mailer/blob/main/.github/workflows/ci.yml
   detection_source: ".github/workflows/ci.yml"
   last_updated_by: Clivern
   last_updated_on: 2020-12-09 09:31:19.000000000 Z
@@ -131,6 +139,7 @@ tools:
   category: Application Hosting
   sub_category: Web Servers
   image_url: https://img.stackshare.io/service/1052/YMxUfyWf.png
+  detection_source_url: https://github.com/Clivern/mailer/blob/main/docker-compose.yml
   detection_source: docker-compose.yml
   last_updated_by: Ahmed⠙
   last_updated_on: 2020-12-20 17:57:59.000000000 Z
@@ -169,6 +178,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Front End Package Manager
   image_url: https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png
+  detection_source_url: https://github.com/Clivern/mailer/blob/main/package.json
   detection_source: package.json
   last_updated_by: Clivern
   last_updated_on: 2020-12-09 09:31:19.000000000 Z
@@ -181,6 +191,7 @@ tools:
   category: Application Hosting
   sub_category: Platform as a Service
   image_url: https://img.stackshare.io/service/139/s01TMTGn.png
+  detection_source_url: https://github.com/Clivern/mailer/blob/main/docker-compose.yml
   detection_source: docker-compose.yml
   last_updated_by: Ahmed⠙
   last_updated_on: 2020-12-20 17:57:59.000000000 Z
@@ -193,6 +204,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Operating Systems
   image_url: https://img.stackshare.io/service/6429/alpine_linux.png
+  detection_source_url: https://github.com/Clivern/mailer/blob/main/docker-compose.yml
   detection_source: docker-compose.yml
   last_updated_by: Ahmed⠙
   last_updated_on: 2020-12-20 17:57:59.000000000 Z
@@ -204,6 +216,7 @@ tools:
   category: Communications
   sub_category: Large Language Model Tools
   image_url: https://img.stackshare.io/service/48790/default_5b6c6b73f1ff3775c85d2a1ba954cb87e30cbf13.jpg
+  detection_source_url: https://github.com/Clivern/mailer/blob/main/public/robots.txt
   detection_source: public/robots.txt
   last_updated_by: Clivern
   last_updated_on: 2020-12-09 09:31:19.000000000 Z
@@ -229,6 +242,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/4631/default_c2062d40130562bdc836c13dbca02d318205a962.png
+  detection_source_url: https://github.com/Clivern/mailer
   detection_source: Repo Metadata
 - name: SwiftMailer
   description: Allows you to keep up with Symfony news in a twitter-like way.
@@ -236,6 +250,7 @@ tools:
   open_source: false
   hosted_saas: false
   image_url: https://img.stackshare.io/service/1815/logosf_positif_03_icon_normal.png
+  detection_source_url: https://github.com/Clivern/mailer/blob/main/docker-compose.yml
   detection_source: docker-compose.yml
   last_updated_by: Ahmed⠙
   last_updated_on: 2020-12-20 17:57:59.000000000 Z
@@ -259,6 +274,7 @@ tools:
   open_source: false
   hosted_saas: false
   image_url: https://img.stackshare.io/service/7945/h7umz7fz_normal.jpg
+  detection_source_url: https://github.com/Clivern/mailer/blob/main/package.json
   detection_source: package.json
   last_updated_by: Clivern
   last_updated_on: 2020-12-09 09:31:19.000000000 Z
@@ -428,6 +444,20 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15828/default_14fd11531839d935f920b6d55bd6f3528c890ad7.png
+  detection_source_url: https://github.com/Clivern/mailer/blob/main/package.json
+  detection_source: package.json
+  last_updated_by: Clivern
+  last_updated_on: 2020-12-09 09:31:19.000000000 Z
+- name: laravel-mix
+  description: Laravel Mix is an elegant wrapper around Webpack for the 80% use case
+  package_url: https://www.npmjs.com/laravel-mix
+  version: 5.0.1
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/17350/default_33c3173e7d0e91f7cea0eab9883ca83b157bd4a5.png
   detection_source_url: https://github.com/Clivern/mailer/blob/main/package.json
   detection_source: package.json
   last_updated_by: Clivern

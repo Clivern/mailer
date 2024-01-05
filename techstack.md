@@ -58,7 +58,7 @@ Full tech stack [here](/techstack.md)
 # Tech Stack File
 ![](https://img.stackshare.io/repo.svg "repo") [Clivern/mailer](https://github.com/Clivern/mailer)![](https://img.stackshare.io/public_badge.svg "public")
 <br/><br/>
-|36<br/>Tools used|12/21/23 <br/>Report generated|
+|37<br/>Tools used|01/05/24 <br/>Report generated|
 |------|------|
 </div>
 
@@ -269,7 +269,7 @@ Full tech stack [here](/techstack.md)
 </table>
 
 
-## <img src='https://img.stackshare.io/group.svg' /> Open source packages (14)</h2>
+## <img src='https://img.stackshare.io/group.svg' /> Open source packages (15)</h2>
 
 ## <img width='24' height='24' src='https://img.stackshare.io/package_manager/1778/default_90cb8b66e85ae5b95928b10bb076ab6a27c7e151.png'/> Packagist (12)
 
@@ -289,11 +289,12 @@ Full tech stack [here](/techstack.md)
 |[squizlabs/php_codesniffer](https://packagist.org/squizlabs/php_codesniffer)|v3.5.8|12/20/20|Ahmed⠙ |N/A|N/A|
 
 
-## <img width='24' height='24' src='https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png'/> npm (2)
+## <img width='24' height='24' src='https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png'/> npm (3)
 
 |NAME|VERSION|LAST UPDATED|LAST UPDATED BY|LICENSE|VULNERABILITIES|
 |:------|:------|:------|:------|:------|:------|
 |[cross-env](https://www.npmjs.com/cross-env)|v7.0|12/09/20|Clivern |MIT|N/A|
+|[laravel-mix](https://www.npmjs.com/laravel-mix)|v5.0.1|12/09/20|Clivern |MIT|N/A|
 |[resolve-url-loader](https://www.npmjs.com/resolve-url-loader)|v3.1.0|12/20/20|Ahmed⠙ |MIT|N/A|
 
 <br/>
